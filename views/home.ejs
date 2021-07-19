@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicronAgritech | Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+  <body>
+    <main class="flex-shrink-0">
+     <div class="container">
+       <h1 class="mt-5">Hello <b id="name"></b> <small onClick="Logout()" style="cursor:pointer;">[Logout]</small></h1>
+       <p class="lead">You issued a login request at: <i id="sessionLogin"></i></p>
+       <p>This is a basic login application written by Ryan Williams for MicronAgritech.</p>
+     </div>
+    </main>
+
+    <script type="text/javascript">
+       let nameElem = document.getElementById('name');
+       let sessionLogin = document.getElementById('sessionLogin');
+       ShowSessionInfo();
+
+       //Check heartbeat every 10s.
+       setInterval(() => {
+         ShowSessionInfo();
+       }, 10000)
+
+       function ShowSessionInfo() {
+         fetch("http://localhost:3000/api/users/heartbeat", {
+           method: "GET",
+           headers: {
+             "Content-Type": "application/json"
+           },
+           credentials: "include"
+         }).then(async (response) => {
+           let result = await response.json();
+           if(result.Result < 1) {
+             window.location.replace('/index');
+           } else {
+             nameElem.innerHTML = result.Data.firstname+' '+result.Data.lastname;
+             sessionLogin.innerHTML = await DateFormat(result.Data.lastloggedin);
+           }
+         }).catch((err) => {
+           console.log(err)
+         })
+       }
+       function DateFormat(date) {
+         current_datetime = new Date(date)
+         let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds()
+         return formatted_date;
+       }
+       function Logout() {
+         fetch("http://localhost:3000/api/users/logout", {
+           method: "GET",
+           headers: {
+             "Content-Type": "application/json"
+           },
+           credentials: "include",
+         }).then( async(response) => {
+           let result = await response.json();
+           if(result.Result > 0) {
+             window.location.reload();
+           }
+         })
+       }
+     </script>
+   </body>
+</html>

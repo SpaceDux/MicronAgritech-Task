@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicronAgritech | Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+  <body class="text-center">
+     <form class="form-signin">
+       <div id="Message">
+
+       </div>
+       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+       <label for="Username" class="sr-only">Username</label>
+       <input type="username" id="Username" class="form-control" placeholder="Username"maxlength="50" required autofocus>
+       <label for="Password" class="sr-only">Password</label>
+       <input type="password" id="Password" class="form-control" placeholder="Password" required>
+       <button class="btn btn-lg btn-primary btn-block" onClick="Login()">Sign In</button>
+       <hr>
+       <a href="/register" class="btn btn-lg btn-dark btn-block">Register</a>
+     </form>
+     
+     <script type="text/javascript">
+      function Login() {
+        event.preventDefault(); //Prevent the browser default behaviour.
+        let username = document.getElementById('Username').value;
+        let password = document.getElementById('Password').value;
+        let msgElem = document.getElementById('Message');
+        fetch("http://localhost:3000/api/users/login", {
+          method: "POST",
+          body: JSON.stringify({"Username":username, "Password":password}),
+          headers: {
+            "Content-Type": "application/json"
+          },
+        }).then(async (response) => {
+          let result = await response.json();
+          if(result.Result > 0) {
+            console.log("Logged In!");
+            msgElem.innerHTML = `<div class="alert alert-success">${result.Message}\n Redirecting in 2 seconds.</div>`;
+            setTimeout(() => {
+              window.location.replace("/home");
+            }, 2000);
+          } else {
+            msgElem.innerHTML = `<div class="alert alert-warning">${result.Message}</div>`;
+          }
+        }).catch((err) => {
+          console.log(err);
+        })
+      }
+     </script>
+   </body>
+</html>
+
+
+<style media="screen">
+html,
+body {
+  height: 100%;
+}
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="username"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+</style>
