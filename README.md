@@ -5,6 +5,16 @@ You will have to create a simple frontend-backend application which uses postgre
 - Once the users are logged in successfully, a welcome message should be shown to the user.
 **Extra points for additional functionalities other than those mentioned above.
 
+# How to use / install.
+- Ensure NodeJS & MySQL is installed (also NPM)
+- Download files, and place into a directory of your choice.
+- Import the "database.sql" to MySQL
+- In terminal, cd into directory
+- Run the following: npm install
+- Navigate to file "mysql.class.js" and modify the mysql connection infomation
+- run npm start
+- Navigate to http://localhost:3000
+
 # How I completed this task (Backend)
 To do this, I decided to use **NodeJS** & **MySQL**, this reason is purely down to comfort.
 
