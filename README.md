@@ -18,10 +18,10 @@ You will have to create a simple frontend-backend application which uses postgre
 # How I completed this task (Backend)
 To do this, I decided to use **NodeJS** & **MySQL**, this reason is purely down to comfort.
 
-Immediately upon reading the task requirements, I knew that by storing user data, we're going to need to hash the password, so I have chosen to use **bcypt**.
+Immediately upon reading the task requirements, I knew that by storing user data, we're going to need to hash the password, so I have chosen to use **bcrypt**.
 
 
-So I started by creating a few nodejs instance "npm init -y". Once nodejs had completed the init, I then proceeded to create the "index.js" file, this will be my main.
+So I started by creating a new nodejs instance "npm init -y". Once nodejs had completed the init, I then proceeded to create the "index.js" file, this will be my main.
 In the main file, I began planning my HTTP endpoints. Firstly I decided to use Express as a webserver. In-order to use Express, I needed to install the package, and some middleware packages.
 1. Installed Express.
 1. MySQL.
